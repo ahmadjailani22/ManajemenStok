@@ -14,19 +14,22 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    protected $table      = 'users';
+    protected $primaryKey = 'id_user';
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $fillable = [
+        'username',
+        'password',
+        'nama_lengkap',
+        'email',
+        'role',
+    ];
+
+    protected $hidden = ['password'];
+
+    // Nonaktifkan remember_token karena kolom ini tidak ada di tabel kamu
+    public function getRememberToken() { return null; }
+    public function setRememberToken($value) {}
+    public function getRememberTokenName() { return ''; }
 }
+
