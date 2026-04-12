@@ -8,6 +8,8 @@ class Barang extends Model
 {
     protected $table      = 'barang';
     protected $primaryKey = 'id_barang';
+    public $incrementing = true;
+    protected $keyType    = 'int';
 
     protected $fillable = [
         'kode_barang',
@@ -23,6 +25,11 @@ class Barang extends Model
         'gambar',
         'status',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'id_barang';
+    } 
 
     // Relasi ke Kategori
     public function kategori()
