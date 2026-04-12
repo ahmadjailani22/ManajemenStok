@@ -67,7 +67,7 @@
                     <li class="nav-header">MASTER DATA</li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link {{ request()->routeIs('barang.*') ? 'active' : '' }}">
+                        <a href="{{ route('barang.index') }}" class="nav-link {{ request()->routeIs('barang.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-box"></i>
                             <p>Data Barang</p>
                         </a>

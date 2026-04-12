@@ -31,7 +31,7 @@ class DashboardController extends Controller
                 'barang_masuk.jumlah',
                 'barang_masuk.tanggal_masuk as tanggal'
             );
-
+            
         $transaksi_terakhir = DB::table('barang_keluar')
             ->join('barang', 'barang_keluar.id_barang', '=', 'barang.id_barang')
             ->select(
