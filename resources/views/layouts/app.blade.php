@@ -27,22 +27,27 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="fas fa-user-circle mr-1"></i>
-                    {{ Auth::user()->nama_lengkap }}
-                    <span class="badge badge-success ml-1">{{ Auth::user()->role }}</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="dropdown-item text-danger">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </button>
-                    </form>
-                </div>
-            </li>
-        </ul>
+    {{-- Info user --}}
+    <li class="nav-item">
+        <span class="nav-link">
+            <i class="fas fa-user-circle mr-1"></i>
+            <strong>{{ Auth::user()->nama_lengkap }}</strong>
+            <span class="badge badge-success ml-1">{{ Auth::user()->role }}</span>
+        </span>
+    </li>
+
+    {{-- Tombol logout langsung (tanpa dropdown) --}}
+    <li class="nav-item">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="nav-link btn btn-link text-danger"
+                    style="border:none; background:none; cursor:pointer;"
+                    onclick="return confirm('Yakin ingin logout?')">
+                <i class="fas fa-sign-out-alt mr-1"></i> Logout
+            </button>
+        </form>
+    </li>
+</ul>
     </nav>
 
     {{-- Sidebar --}}
@@ -151,12 +156,9 @@
 
 </div>
 
-<!-- jQuery -->
-<script src="{{ asset('vendor/adminlte/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('vendor/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE JS -->
-<script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
 
 @stack('scripts')
 </body>
