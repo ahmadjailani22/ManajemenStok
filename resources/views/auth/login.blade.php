@@ -57,6 +57,16 @@
         }
         .invalid-feedback { color: #dc2626; font-size: 0.8rem; margin-top: 4px; }
         .footer { text-align: center; font-size: 0.78rem; color: #9ca3af; margin-top: 1.25rem; }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -87,7 +97,7 @@
             <input type="text" id="username" name="username"
                 value="{{ old('username') }}"
                 placeholder="Masukkan username"
-                autocomplete="username" autofocus>
+                autocomplete="username" autofocus style="width: 100%;">
             @error('username')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
