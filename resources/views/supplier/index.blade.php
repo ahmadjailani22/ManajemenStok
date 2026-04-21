@@ -120,7 +120,8 @@
                                         </td>
                                         <td class="text-muted small">
                                             @if ($supplier->telepon)
-                                                <i class="fas fa-phone me-1 text-success"></i>{{ $supplier->telepon }}
+                                                <i class="fas fa-phone me-1 text-success"></i>
+                                                {{ preg_replace('/(\d{4})(\d{4})(\d+)/', '$1-$2-$3', $supplier->telepon) }}
                                             @else
                                                 <span class="text-muted">-</span>
                                             @endif
@@ -172,38 +173,38 @@
     </div>
 
     {{-- Modal Konfirmasi Hapus --}}
-    <div class="modal fade" id="modalHapus" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header bg-danger text-white border-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-exclamation-triangle me-2"></i>Konfirmasi Hapus
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center py-4">
-                    <div class="mb-3">
-                        <i class="fas fa-trash-alt fa-3x text-danger opacity-75"></i>
-                    </div>
-                    <p class="mb-1">Anda yakin ingin menghapus supplier:</p>
-                    <p class="fw-bold fs-5 mb-1" id="namaSupplierHapus">-</p>
-                    <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
-                </div>
-                <div class="modal-footer border-0 justify-content-center gap-2">
-                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
-                        Batal
+    <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>Konfirmasi Hapus
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                <p class="mb-1">Anda yakin ingin menghapus supplier:</p>
+                <p class="font-weight-bold h5 mb-1" id="namaSupplierHapus">-</p>
+                <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                    Batal
+                </button>
+                <form id="formHapus" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="fas fa-trash mr-1"></i>Ya, Hapus
                     </button>
-                    <form id="formHapus" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger px-4">
-                            <i class="fas fa-trash me-1"></i>Ya, Hapus
-                        </button>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 @endsection
 
