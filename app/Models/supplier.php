@@ -10,6 +10,7 @@ class Supplier extends Model
     use HasFactory;
 
     protected $table = 'supplier';
+    protected $primaryKey = 'id_supplier';
 
     protected $fillable = [
         'kode_supplier',
@@ -22,9 +23,15 @@ class Supplier extends Model
     /**
      * Generate kode supplier otomatis dengan format SUP-XXX
      */
+
+    public function getRouteKeyName()
+    {
+        return 'id_supplier';
+    }
+
     public static function generateKode(): string
     {
-        $last = self::orderBy('id', 'desc')->first();
+        $last = self::orderBy('id_supplier', 'desc')->first();
 
         if (!$last) {
             return 'SUP-001';

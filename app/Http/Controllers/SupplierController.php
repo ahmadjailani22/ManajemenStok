@@ -7,43 +7,52 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->get('search');
-
-        $suppliers = Supplier::query()
-            ->when($search, function ($query, $search) {
-                $query->where('kode_supplier', 'like', "%{$search}%")
-                      ->orWhere('nama_supplier', 'like', "%{$search}%")
-                      ->orWhere('telepon', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->orderBy('kode_supplier')
-            ->paginate(10)
-            ->withQueryString();
+        $search    = request('search');
+        $suppliers = Supplier::when($search, function ($query) use ($search) {
+                        $query->where('nama_supplier', 'like', "%{$search}%")
+                              ->orWhere('telepon', 'like', "%{$search}%")
+                              ->orWhere('email', 'like', "%{$search}%");
+                     })
+                     ->orderBy('kode_supplier')
+                     ->paginate(10)
+                     ->withQueryString();
 
         return view('supplier.index', compact('suppliers', 'search'));
     }
 
     public function create()
     {
-        $kodeSupplier = Supplier::generateKode();
-        return view('supplier.create', compact('kodeSupplier'));
+        return view('supplier.create');
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_supplier' => 'required|string|max:150',
-            'alamat'        => 'nullable|string',
-            'telepon'       => 'nullable|string|max:20',
-            'email'         => 'nullable|email|max:100',
+        $request->validate([
+            'kode_supplier' => 'required|unique:supplier,kode_supplier',
+            'nama_supplier' => 'required',
+            'telepon'       => 'nullable',
+            'email'         => 'nullable|email',
+            'alamat'        => 'nullable',
+            'status'        => 'required|in:aktif,nonaktif',
+        ], [
+            'kode_supplier.required' => 'Kode supplier wajib diisi.',
+            'kode_supplier.unique'   => 'Kode supplier sudah digunakan.',
+            'nama_supplier.required' => 'Nama supplier wajib diisi.',
+            'email.email'            => 'Format email tidak valid.',
         ]);
 
-        $validated['kode_supplier'] = Supplier::generateKode();
-        Supplier::create($validated);
+        Supplier::create($request->except('_token'));
 
-        return redirect()->route('supplier.index')->with('success', 'Supplier berhasil ditambahkan!');
+        return redirect()->route('supplier.index')
+            ->with('success', 'Supplier berhasil ditambahkan.');
+    }
+
+    // Gunakan type-hint Supplier $supplier
+    public function show(Supplier $supplier)
+    {
+        return view('supplier.show', compact('supplier'));
     }
 
     public function edit(Supplier $supplier)
@@ -53,23 +62,26 @@ class SupplierController extends Controller
 
     public function update(Request $request, Supplier $supplier)
     {
-        $validated = $request->validate([
-            'nama_supplier' => 'required|string|max:150',
-            'alamat'        => 'nullable|string',
-            'telepon'       => 'nullable|string|max:20',
-            'email'         => 'nullable|email|max:100',
+        $request->validate([
+            'kode_supplier' => 'required|unique:supplier,kode_supplier,' . $supplier->id_supplier . ',id_supplier',
+            'nama_supplier' => 'required',
+            'telepon'       => 'nullable',
+            'email'         => 'nullable|email',
+            'alamat'        => 'nullable',
+            'status'        => 'required|in:aktif,nonaktif',
         ]);
 
-        $supplier->update($validated);
+        $supplier->update($request->except('_token', '_method'));
 
-        return redirect()->route('supplier.index')->with('success', 'Data supplier berhasil diperbarui!');
+        return redirect()->route('supplier.index')
+            ->with('success', 'Supplier berhasil diperbarui.');
     }
 
     public function destroy(Supplier $supplier)
     {
-        $nama = $supplier->nama_supplier;
-        $supplier->delete();
+        $supplier->update(['status' => 'nonaktif']);
 
-        return redirect()->route('supplier.index')->with('success', "Supplier \"{$nama}\" berhasil dihapus.");
+        return redirect()->route('supplier.index')
+            ->with('success', 'Supplier berhasil dinonaktifkan.');
     }
 }

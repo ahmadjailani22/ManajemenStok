@@ -137,12 +137,12 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex gap-1 justify-content-center">
-                                                <a href="{{ route('supplier.edit', $supplier->id) }}"
+                                                <a href="{{ route('supplier.edit', $supplier->id_supplier) }}"
                                                     class="btn btn-sm btn-warning" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                                    title="Hapus" data-id="{{ $supplier->id }}"
+                                                    title="Hapus" data-id="{{ $supplier->id_supplier }}"
                                                     data-nama="{{ $supplier->nama_supplier }}" data-toggle="modal"
                                                     data-target="#modalHapus">
                                                     <i class="fas fa-trash"></i>
