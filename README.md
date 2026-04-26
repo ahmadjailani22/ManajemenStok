@@ -10,6 +10,7 @@ NANDA RIZALFI 2430407059
 Website Sistem Manajemen Barang & Laporan Harian berbasis web untuk Toko Safitri, dibuat menggunakan PHP dan MySQL untuk membantu pengelolaan inventori, transaksi, dan laporan secara efisien.
 
 🏪 SISTEM TOKO SAFITRI
+
 📌 Deskripsi
 
 Sistem ini merupakan aplikasi berbasis web yang dirancang untuk membantu Toko Safitri dalam mengelola:
