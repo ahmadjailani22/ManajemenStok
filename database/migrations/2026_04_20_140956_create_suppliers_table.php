@@ -1,26 +1,55 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Supplier extends Model
 {
-    public function up(): void
+    use HasFactory;
+
+    protected $table = 'suppliers';
+
+    protected $fillable = [
+        'kode_supplier',
+        'nama_supplier',
+        'alamat',
+        'telepon',
+        'email',
+        'status',
+    ];
+
+    /**
+     * Generate kode supplier otomatis format SUP-XXX
+     */
+    public static function generateKode(): string
     {
-        Schema::create('suppliers', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_supplier', 20)->unique();
-            $table->string('nama_supplier', 150);
-            $table->text('alamat')->nullable();
-            $table->string('telepon', 20)->nullable();
-            $table->string('email', 100)->nullable();
-            $table->timestamps();
-        });
+        $last = self::orderBy('id', 'desc')->first();
+
+        if (!$last) {
+            return 'SUP-001';
+        }
+
+        $lastNumber = (int) substr($last->kode_supplier, 4);
+        $nextNumber = $lastNumber + 1;
+
+        return 'SUP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 
-    public function down(): void
+    /**
+     * Scope: hanya supplier aktif
+     */
+    public function scopeAktif($query)
     {
-        Schema::dropIfExists('suppliers');
+        return $query->where('status', 'aktif');
     }
-};
+
+    /**
+     * Helper: apakah supplier aktif?
+     */
+    public function isAktif(): bool
+    {
+        return $this->status === 'aktif';
+    }
+}

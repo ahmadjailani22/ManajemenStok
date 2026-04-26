@@ -9,38 +9,30 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    protected $table = 'supplier';
-    protected $primaryKey = 'id_supplier';
-
     protected $fillable = [
         'kode_supplier',
         'nama_supplier',
         'alamat',
         'telepon',
         'email',
+        'status',       // ← pastikan 'status' ada di sini
     ];
-
-    /**
-     * Generate kode supplier otomatis dengan format SUP-XXX
-     */
-
-    public function getRouteKeyName()
-    {
-        return 'id_supplier';
-    }
 
     public static function generateKode(): string
     {
-        $last = self::orderBy('id_supplier', 'desc')->first();
-
-        if (!$last) {
-            return 'SUP-001';
-        }
-
-        // Ambil angka dari kode terakhir, misal SUP-007 => 7
+        $last = self::orderBy('id', 'desc')->first();
+        if (!$last) return 'SUP-001';
         $lastNumber = (int) substr($last->kode_supplier, 4);
-        $nextNumber = $lastNumber + 1;
+        return 'SUP-' . str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+    }
 
-        return 'SUP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+    public function scopeAktif($query)
+    {
+        return $query->where('status', 'aktif');
+    }
+
+    public function isAktif(): bool
+    {
+        return $this->status === 'aktif';
     }
 }
