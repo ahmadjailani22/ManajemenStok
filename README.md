@@ -1,3 +1,10 @@
+KELOMPOK 6:
+ARIEL AL MUQSITH 23304070007
+AHMAD JAYLANI 2330407028
+NANDA RIZALFI 2430407059
+
+
+
 🛒 toko-safitri-system
 
 Website Sistem Manajemen Barang & Laporan Harian berbasis web untuk Toko Safitri, dibuat menggunakan PHP dan MySQL untuk membantu pengelolaan inventori, transaksi, dan laporan secara efisien.
