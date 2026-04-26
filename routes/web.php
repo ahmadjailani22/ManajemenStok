@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -18,5 +19,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
+// Barang
 Route::resource('barang', BarangController::class)->middleware('auth');
-Route::resource('supplier', SupplierController::class)->middleware('auth');
+
+// Supplier — resource + fitur tambahan
+Route::middleware('auth')->group(function () {
+    Route::resource('supplier', SupplierController::class);
+    Route::patch('supplier/{supplier}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('supplier.toggle-status');
+    Route::get('supplier-export/excel', [SupplierController::class, 'exportExcel'])->name('supplier.export.excel');
+    Route::get('supplier-export/pdf',   [SupplierController::class, 'exportPdf'])->name('supplier.export.pdf');
+});
