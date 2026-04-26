@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $search      = $request->get('search');
-        $filterStatus = $request->get('status');
+        $search = $request->get('search');
 
         $suppliers = Supplier::query()
             ->when($search, function ($query, $search) {
@@ -18,9 +17,6 @@ class SupplierController extends Controller
                       ->orWhere('nama_supplier', 'like', "%{$search}%")
                       ->orWhere('telepon', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
-            })
-            ->when($filterStatus, function ($query, $filterStatus) {
-                $query->where('status', $filterStatus);
             })
             ->orderBy('kode_supplier')
             ->paginate(10)
@@ -41,8 +37,7 @@ class SupplierController extends Controller
 
     public function create()
     {
-        $kodeSupplier = Supplier::generateKode();
-        return view('supplier.create', compact('kodeSupplier'));
+        return view('supplier.create');
     }
 
     public function store(Request $request)
@@ -52,18 +47,12 @@ class SupplierController extends Controller
             'alamat'        => 'nullable|string',
             'telepon'       => 'nullable|string|max:20',
             'email'         => 'nullable|email|max:100',
-            'status'        => 'required|in:aktif,nonaktif',
-        ], [
-            'nama_supplier.required' => 'Nama supplier wajib diisi.',
-            'email.email'            => 'Format email tidak valid.',
-            'status.required'        => 'Status wajib dipilih.',
         ]);
 
         $validated['kode_supplier'] = Supplier::generateKode();
         Supplier::create($validated);
 
-        return redirect()->route('supplier.index')
-            ->with('success', 'Supplier berhasil ditambahkan!');
+        return redirect()->route('supplier.index')->with('success', 'Supplier berhasil ditambahkan!');
     }
 
     public function edit(Supplier $supplier)
@@ -78,25 +67,18 @@ class SupplierController extends Controller
             'alamat'        => 'nullable|string',
             'telepon'       => 'nullable|string|max:20',
             'email'         => 'nullable|email|max:100',
-            'status'        => 'required|in:aktif,nonaktif',
-        ], [
-            'nama_supplier.required' => 'Nama supplier wajib diisi.',
-            'email.email'            => 'Format email tidak valid.',
         ]);
 
-        $supplier->update($validated);
+        $supplier->update($request->except('_token', '_method'));
 
-        return redirect()->route('supplier.index')
-            ->with('success', 'Data supplier berhasil diperbarui!');
+        return redirect()->route('supplier.index')->with('success', 'Data supplier berhasil diperbarui!');
     }
 
     public function destroy(Supplier $supplier)
     {
-        $nama = $supplier->nama_supplier;
-        $supplier->delete();
+        $supplier->update(['status' => 'nonaktif']);
 
-        return redirect()->route('supplier.index')
-            ->with('success', "Supplier \"{$nama}\" berhasil dihapus.");
+        return redirect()->route('supplier.index')->with('success', "Supplier \"{$nama}\" berhasil dihapus.");
     }
 
     /**
