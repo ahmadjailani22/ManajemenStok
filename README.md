@@ -81,7 +81,7 @@ Sistem ini hadir sebagai solusi digital berbasis **Laravel** yang menggantikan p
 | Template Admin | AdminLTE 3 |
 | Build Tool | Vite |
 | Version Control | Git & GitHub |
-| Server Lokal | Apache via XAMPP |
+| Server Lokal | Laragon (Apache + MySQL + PHP) |
 
 ---
 
@@ -193,40 +193,45 @@ toko-safitri-system/
 ### Prasyarat
 
 Pastikan sudah terinstall:
-- [XAMPP](https://www.apachefriends.org/) (PHP 8.x + MySQL + Apache)
-- [Composer](https://getcomposer.org/)
-- [Node.js & NPM](https://nodejs.org/)
+- [Laragon](https://laragon.org/download/) (versi Full — sudah include Apache, MySQL, PHP 8.x, Composer, Node.js, NPM)
 - [Git](https://git-scm.com/)
+
+> 💡 **Kenapa Laragon?** Laragon otomatis mendeteksi proyek Laravel dan langsung bisa diakses lewat `http://toko-safitri-system.test` tanpa konfigurasi tambahan.
 
 ### Langkah Instalasi
 
-**1. Clone repository**
+**1. Pastikan Laragon sudah berjalan**
+
+Buka Laragon → klik **Start All** (Apache & MySQL harus hijau ✅)
+
+**2. Clone repository ke folder `www` Laragon**
 ```bash
-git clone https://github.com/[username]/toko-safitri-system.git
+cd C:/laragon/www
+git clone https://github.com/ahmadjailani22/toko-safitri-system.git
 cd toko-safitri-system
 ```
 
-**2. Install dependensi PHP**
+**3. Install dependensi PHP**
 ```bash
 composer install
 ```
 
-**3. Install dependensi Node.js**
+**4. Install dependensi Node.js**
 ```bash
 npm install
 ```
 
-**4. Salin file konfigurasi environment**
+**5. Salin file konfigurasi environment**
 ```bash
 cp .env.example .env
 ```
 
-**5. Generate application key**
+**6. Generate application key**
 ```bash
 php artisan key:generate
 ```
 
-**6. Konfigurasi database**
+**7. Konfigurasi database**
 
 Edit file `.env`, sesuaikan bagian berikut:
 ```env
@@ -238,34 +243,35 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-**7. Buat database**
+**8. Buat database**
 
 Buka phpMyAdmin di `http://localhost/phpmyadmin`, lalu buat database baru bernama `toko_safitri`.
 
-**8. Jalankan migrasi database**
+> Atau bisa juga lewat Laragon → klik kanan tray icon → **Database** → **HeidiSQL / phpMyAdmin**
+
+**9. Jalankan migrasi database**
 ```bash
 php artisan migrate
 ```
 
-**9. (Opsional) Jalankan seeder untuk data awal**
+**10. (Opsional) Jalankan seeder untuk data awal**
 ```bash
 php artisan db:seed
 ```
 
-**10. Build asset frontend**
+**11. Build asset frontend**
 ```bash
 npm run build
 ```
 
-**11. Jalankan server**
-```bash
-php artisan serve
+**12. Akses aplikasi di browser**
+
+Laragon otomatis membuat virtual host, langsung akses:
+```
+http://toko-safitri-system.test
 ```
 
-Akses aplikasi di browser:
-```
-http://127.0.0.1:8000
-```
+> Jika belum otomatis muncul, bisa juga jalankan `php artisan serve` dan akses `http://127.0.0.1:8000`
 
 ---
 
@@ -325,7 +331,7 @@ http://127.0.0.1:8000
 | Nama | No. HP | Email |
 |------|--------|-------|
 | Ahmad Jaylani | 082172323573 | jailaniahmad2205@gmail.com |
-| Ariel Al Muqsith | 083821480300 | arielgaming3632r@gmail.com |
+| Ariel Al Muqsith | 083821480300 | — |
 | Nanda Rizalfi | 081299098181 | — |
 
 ---
