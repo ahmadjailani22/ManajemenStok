@@ -2,17 +2,16 @@
 
 <div align="center">
 
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
-![Apache](https://img.shields.io/badge/Apache-XAMPP-FB7A24?style=for-the-badge&logo=apache&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![AdminLTE](https://img.shields.io/badge/AdminLTE-3-3C8DBC?style=for-the-badge)
 
 **Sistem informasi berbasis web untuk mengelola inventori, transaksi, supplier, dan laporan operasional Toko Safitri secara terintegrasi dan real-time.**
 
 ![Status](https://img.shields.io/badge/Status-🚧%20Dalam%20Pengembangan-orange?style=flat-square)
 ![Versi](https://img.shields.io/badge/Versi-1.0.0-blue?style=flat-square)
-![Lisensi](https://img.shields.io/badge/Lisensi-MIT-green?style=flat-square)
 
 </div>
 
@@ -22,12 +21,12 @@
 
 **Toko Safitri** adalah toko kosmetik dan barang harian yang berlokasi di Pasar Sumani, Kab. Solok, Sumatera Barat. Sebelumnya, seluruh proses pengelolaan stok, transaksi, dan pelaporan dilakukan secara manual menggunakan buku catatan dan kalkulator — rawan kesalahan dan tidak efisien.
 
-Sistem ini hadir sebagai solusi digital yang menggantikan proses manual tersebut. Dengan aplikasi berbasis web ini, pemilik dan karyawan Toko Safitri dapat:
+Sistem ini hadir sebagai solusi digital berbasis **Laravel** yang menggantikan proses manual tersebut. Dengan aplikasi ini, pemilik dan karyawan Toko Safitri dapat:
 
 - Memantau **stok barang secara real-time**
-- Menjalankan **transaksi kasir (POS)** dengan cepat dan akurat
+- Mengelola **data produk, kategori, dan supplier** dengan mudah
 - Mendapatkan **laporan penjualan otomatis** harian & bulanan
-- Mengelola **data supplier** dan riwayat pembelian barang
+- Mengakses sistem melalui **browser** di komputer maupun tablet
 
 ---
 
@@ -47,35 +46,26 @@ Sistem ini hadir sebagai solusi digital yang menggantikan proses manual tersebut
 
 ## ✨ Fitur Utama
 
-### 🔐 Autentikasi & Manajemen Pengguna
-- Login & logout dengan enkripsi password (bcrypt)
-- Manajemen role: **Admin**, **Kasir**, **Pemilik**
-- Hak akses berbeda per role
-- Log aktivitas pengguna (siapa melakukan apa & kapan)
+### 🔐 Autentikasi
+- Login & logout dengan sistem session Laravel
+- Proteksi halaman dengan middleware `auth` & `guest`
 
-### 📦 Manajemen Produk & Inventori
-- CRUD produk: nama, kode, kategori, harga beli, harga jual, satuan
+### 📦 Manajemen Barang
+- Tambah, edit, hapus, dan lihat detail barang
+- Data barang: nama, kode, kategori, harga beli, harga jual, stok, satuan
 - Upload foto produk
-- Kelola kategori produk (kosmetik, sembako, kebersihan, dll)
-- Update stok masuk dari supplier
-- **Notifikasi otomatis** ketika stok ≤ batas minimum
-- Histori perubahan stok dengan timestamp lengkap
 
-### 🛒 Point of Sale (POS / Kasir)
-- Transaksi penjualan digital — cepat & akurat
-- Kalkulasi total otomatis
-- Cetak struk / bukti pembayaran
-- Riwayat transaksi dengan filter tanggal & produk
+### 🗂️ Manajemen Kategori
+- CRUD kategori produk (kosmetik, sembako, kebersihan, dll)
+- Relasi kategori ke data barang
 
 ### 🚚 Manajemen Supplier
-- Data supplier: nama, alamat, nomor kontak, produk yang disuplai
-- Riwayat pembelian per supplier (kapan beli, jumlah, harga)
+- CRUD data supplier: nama, alamat, kontak
+- Riwayat pembelian per supplier
 
-### 📈 Laporan & Analitik
-- Laporan penjualan **harian** & **bulanan** dengan grafik
-- Laporan produk terlaris
-- Laporan kondisi stok semua produk
-- **Export laporan** ke format PDF & Excel
+### 📊 Dashboard
+- Ringkasan data: total barang, kategori, supplier
+- Notifikasi stok minimum
 
 ---
 
@@ -83,13 +73,15 @@ Sistem ini hadir sebagai solusi digital yang menggantikan proses manual tersebut
 
 | Komponen | Teknologi |
 |----------|-----------|
-| Frontend | HTML5, CSS3, JavaScript |
-| Framework CSS | Bootstrap 5 |
-| Backend | PHP 8.x |
+| Framework Backend | Laravel 11 |
+| Bahasa Pemrograman | PHP 8.x |
 | Database | MySQL |
-| Web Server (lokal) | Apache via XAMPP |
-| Desain UI | Figma |
+| Frontend | Blade Template, HTML5, CSS3, JavaScript |
+| Framework CSS | Bootstrap 5 |
+| Template Admin | AdminLTE 3 |
+| Build Tool | Vite |
 | Version Control | Git & GitHub |
+| Server Lokal | Apache via XAMPP |
 
 ---
 
@@ -97,23 +89,100 @@ Sistem ini hadir sebagai solusi digital yang menggantikan proses manual tersebut
 
 ```
 toko-safitri-system/
-├── assets/
-│   ├── css/          # Custom stylesheet
-│   ├── js/           # Custom JavaScript
-│   └── img/          # Gambar & logo
+│
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── AuthController.php        # Login & logout
+│   │       ├── BarangController.php      # CRUD barang
+│   │       ├── DashboardController.php   # Halaman dashboard
+│   │       ├── KategoriController.php    # CRUD kategori
+│   │       ├── SupplierController.php    # CRUD supplier
+│   │       └── Controller.php
+│   ├── Models/
+│   │   ├── Barang.php                    # Model data barang
+│   │   ├── Kategori.php                  # Model kategori
+│   │   ├── User.php                      # Model pengguna
+│   │   └── supplier.php                  # Model supplier
+│   └── Providers/
+│       └── AppServiceProvider.php
+│
+├── bootstrap/
+│   ├── app.php
+│   ├── providers.php
+│   └── cache/
+│
 ├── config/
-│   └── database.php  # Konfigurasi koneksi database
-├── modules/
-│   ├── auth/         # Login, logout, session
-│   ├── produk/       # CRUD produk & kategori
-│   ├── stok/         # Manajemen stok & notifikasi
-│   ├── pos/          # Transaksi kasir (POS)
-│   ├── supplier/     # Data supplier & pembelian
-│   ├── laporan/      # Laporan & export
-│   └── users/        # Manajemen pengguna & role
+│   ├── adminlte.php                      # Konfigurasi template AdminLTE
+│   ├── app.php
+│   ├── auth.php
+│   ├── database.php                      # Konfigurasi koneksi database
+│   └── ...
+│
 ├── database/
-│   └── toko_safitri.sql  # File dump database
-├── index.php         # Entry point aplikasi
+│   ├── migrations/
+│   │   ├── 2026_04_06_..._create_sessions_table.php
+│   │   └── 2026_04_20_..._create_suppliers_table.php
+│   ├── seeders/
+│   │   └── DatabaseSeeder.php
+│   └── factories/
+│       └── UserFactory.php
+│
+├── public/
+│   ├── index.php                         # Entry point aplikasi
+│   ├── .htaccess
+│   └── vendor/                           # Asset publik (AdminLTE, dll)
+│
+├── resources/
+│   ├── css/
+│   │   └── app.css
+│   ├── js/
+│   │   ├── app.js
+│   │   └── bootstrap.js
+│   └── views/
+│       ├── auth/
+│       │   └── login.blade.php           # Halaman login
+│       ├── barang/
+│       │   ├── index.blade.php           # Daftar barang
+│       │   ├── create.blade.php          # Form tambah barang
+│       │   ├── edit.blade.php            # Form edit barang
+│       │   └── show.blade.php            # Detail barang
+│       ├── kategori/
+│       │   ├── index.blade.php           # Daftar kategori
+│       │   ├── create.blade.php          # Form tambah kategori
+│       │   └── edit.blade.php            # Form edit kategori
+│       ├── supplier/
+│       │   ├── index.blade.php           # Daftar supplier
+│       │   ├── create.blade.php          # Form tambah supplier
+│       │   └── edit.blade.php            # Form edit supplier
+│       ├── layouts/
+│       │   └── app.blade.php             # Layout utama (AdminLTE)
+│       ├── dashboard.blade.php           # Halaman dashboard
+│       └── welcome.blade.php
+│
+├── routes/
+│   ├── web.php                           # Definisi semua route web
+│   └── console.php
+│
+├── storage/
+│   ├── app/
+│   ├── framework/
+│   └── logs/
+│
+├── tests/
+│   ├── Feature/
+│   │   └── ExampleTest.php
+│   ├── Unit/
+│   │   └── ExampleTest.php
+│   └── TestCase.php
+│
+├── .env                                  # Konfigurasi environment (tidak di-commit)
+├── .env.example                          # Template konfigurasi environment
+├── .gitignore
+├── artisan                               # Laravel CLI
+├── composer.json                         # Dependensi PHP
+├── package.json                          # Dependensi Node.js
+├── vite.config.js                        # Konfigurasi Vite
 └── README.md
 ```
 
@@ -121,66 +190,90 @@ toko-safitri-system/
 
 ## 🚀 Cara Instalasi Lokal
 
-Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer lokal:
-
 ### Prasyarat
+
 Pastikan sudah terinstall:
-- [XAMPP](https://www.apachefriends.org/) (Apache + MySQL + PHP 8.x)
+- [XAMPP](https://www.apachefriends.org/) (PHP 8.x + MySQL + Apache)
+- [Composer](https://getcomposer.org/)
+- [Node.js & NPM](https://nodejs.org/)
 - [Git](https://git-scm.com/)
-- Browser modern (Chrome, Firefox, Edge)
 
 ### Langkah Instalasi
 
-**1. Clone repository ini**
+**1. Clone repository**
 ```bash
 git clone https://github.com/[username]/toko-safitri-system.git
+cd toko-safitri-system
 ```
 
-**2. Pindahkan folder ke direktori htdocs XAMPP**
+**2. Install dependensi PHP**
 ```bash
-# Windows
-mv toko-safitri-system C:/xampp/htdocs/
-
-# Linux / Mac
-mv toko-safitri-system /opt/lampp/htdocs/
+composer install
 ```
 
-**3. Jalankan XAMPP**
-- Buka XAMPP Control Panel
-- Start **Apache** dan **MySQL**
-
-**4. Import database**
-- Buka browser → akses `http://localhost/phpmyadmin`
-- Buat database baru dengan nama: `toko_safitri`
-- Klik tab **Import** → pilih file `database/toko_safitri.sql`
-- Klik **Go**
-
-**5. Konfigurasi koneksi database**
-
-Edit file `config/database.php`:
-```php
-<?php
-$host     = 'localhost';
-$dbname   = 'toko_safitri';
-$username = 'root';
-$password = '';  // Sesuaikan dengan password MySQL kamu
-?>
+**3. Install dependensi Node.js**
+```bash
+npm install
 ```
 
-**6. Akses aplikasi**
-
-Buka browser dan akses:
-```
-http://localhost/toko-safitri-system/
+**4. Salin file konfigurasi environment**
+```bash
+cp .env.example .env
 ```
 
-### Akun Default untuk Testing
+**5. Generate application key**
+```bash
+php artisan key:generate
+```
 
-| Role | Username | Password |
-|------|----------|----------|
-| Admin | `admin` | `admin123` |
-| Kasir | `kasir1` | `kasir123` |
-| Pemilik | `pemilik` | `pemilik123` |
+**6. Konfigurasi database**
+
+Edit file `.env`, sesuaikan bagian berikut:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=toko_safitri
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+**7. Buat database**
+
+Buka phpMyAdmin di `http://localhost/phpmyadmin`, lalu buat database baru bernama `toko_safitri`.
+
+**8. Jalankan migrasi database**
+```bash
+php artisan migrate
+```
+
+**9. (Opsional) Jalankan seeder untuk data awal**
+```bash
+php artisan db:seed
+```
+
+**10. Build asset frontend**
+```bash
+npm run build
+```
+
+**11. Jalankan server**
+```bash
+php artisan serve
+```
+
+Akses aplikasi di browser:
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 🔑 Akun Default untuk Testing
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@tokosafitri.com` | `password` |
 
 > ⚠️ **Penting:** Ganti password default setelah login pertama kali!
 
@@ -190,36 +283,40 @@ http://localhost/toko-safitri-system/
 
 | Modul | Status |
 |-------|--------|
-| ✅ Autentikasi & Login | Selesai |
-| ✅ Manajemen Produk (CRUD) | Selesai |
-| 🔄 Manajemen Stok & Notifikasi | Dalam Pengerjaan |
+| ✅ Autentikasi (Login / Logout) | Selesai |
+| ✅ Manajemen Barang (CRUD) | Selesai |
+| ✅ Manajemen Kategori (CRUD) | Selesai |
+| ✅ Manajemen Supplier (CRUD) | Selesai |
+| ✅ Dashboard Ringkasan | Selesai |
+| 🔄 Manajemen Stok & Notifikasi Minimum | Dalam Pengerjaan |
 | 🔄 Point of Sale (Kasir) | Dalam Pengerjaan |
-| ⏳ Manajemen Supplier | Belum Dimulai |
-| ⏳ Modul Laporan & Export | Belum Dimulai |
-| ⏳ Manajemen Pengguna & Role | Belum Dimulai |
+| ⏳ Modul Laporan & Export PDF/Excel | Belum Dimulai |
+| ⏳ Manajemen Role & Hak Akses | Belum Dimulai |
 
 ---
 
-## 📋 Roadmap Pengembangan
+## 🔀 Routes Tersedia
 
-```
-Fase 1 — Analisis        [✅ Selesai]   Minggu 1–2
-Fase 2 — Perancangan     [✅ Selesai]   Minggu 3–4
-Fase 3 — Implementasi    [🔄 Berjalan]  Minggu 5–10
-Fase 4 — Testing (UAT)   [⏳ Pending]   Minggu 11–12
-Fase 5 — Deployment      [⏳ Pending]   Minggu 13
-Fase 6 — Serah Terima    [⏳ Pending]   Minggu 14
-```
+| Method | URI | Controller | Keterangan |
+|--------|-----|------------|------------|
+| GET | `/` | — | Redirect ke login |
+| GET | `/login` | AuthController@showLogin | Halaman login |
+| POST | `/login` | AuthController@login | Proses login |
+| POST | `/logout` | AuthController@logout | Logout |
+| GET | `/dashboard` | DashboardController@index | Dashboard utama |
+| Resource | `/barang` | BarangController | CRUD barang |
+| Resource | `/supplier` | SupplierController | CRUD supplier |
+| Resource | `/kategori` | KategoriController | CRUD kategori |
 
 ---
 
 ## 🤝 Kontribusi Tim
 
-Setiap anggota tim berkontribusi melalui GitHub dengan pembagian tugas sebagai berikut:
-
-- **Ahmad Jaylani** — Backend PHP, integrasi database, deployment, dokumentasi teknis
-- **Ariel Al Muqsith** — Desain UI/UX (Figma), implementasi frontend HTML/CSS/JS
-- **Nanda Rizalfi** — Perancangan ERD & skema database, pengujian sistem (QA & UAT), user manual
+| Nama | Kontribusi di GitHub |
+|------|----------------------|
+| Ahmad Jaylani | Backend controllers, migrations, routes, deployment |
+| Ariel Al Muqsith | Blade views, layout AdminLTE, CSS & JavaScript |
+| Nanda Rizalfi | Database schema, seeders, testing, dokumentasi |
 
 ---
 
@@ -228,7 +325,7 @@ Setiap anggota tim berkontribusi melalui GitHub dengan pembagian tugas sebagai b
 | Nama | No. HP | Email |
 |------|--------|-------|
 | Ahmad Jaylani | 082172323573 | jailaniahmad2205@gmail.com |
-| Ariel Al Muqsith | 083821480300 | — |
+| Ariel Al Muqsith | 083821480300 | arielgaming3632r@gmail.com |
 | Nanda Rizalfi | 081299098181 | — |
 
 ---
