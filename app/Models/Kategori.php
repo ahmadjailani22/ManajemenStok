@@ -10,4 +10,9 @@ class Kategori extends Model
     protected $primaryKey = 'id_kategori';
 
     protected $fillable = ['nama_kategori', 'deskripsi'];
+
+    public function getRouteKeyName()
+    {
+        return 'id_kategori';
+    }
 }

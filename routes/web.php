@@ -21,4 +21,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::resource('barang', BarangController::class)->middleware('auth');
 Route::resource('supplier', SupplierController::class)->middleware('auth');
-Route::resource('kategori', KategoriController::class);
+Route::resource('kategori', KategoriController::class)->middleware('auth');
