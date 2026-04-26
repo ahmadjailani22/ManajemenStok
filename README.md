@@ -279,7 +279,7 @@ http://toko-safitri-system.test
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | `admin@tokosafitri.com` | `password` |
+| Admin | `admin@stok.com` | `admin123` |
 
 > ⚠️ **Penting:** Ganti password default setelah login pertama kali!
 
@@ -331,7 +331,7 @@ http://toko-safitri-system.test
 | Nama | No. HP | Email |
 |------|--------|-------|
 | Ahmad Jaylani | 082172323573 | jailaniahmad2205@gmail.com |
-| Ariel Al Muqsith | 083821480300 | — |
+| Ariel Al Muqsith | 083821480300 | arielgaming3632r@gmail.com|
 | Nanda Rizalfi | 081299098181 | — |
 
 ---
