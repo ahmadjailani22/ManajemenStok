@@ -238,7 +238,7 @@ Edit file `.env`, sesuaikan bagian berikut:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=toko_safitri
+DB_DATABASE=db_manajemen_stok
 DB_USERNAME=root
 DB_PASSWORD=
 ```
