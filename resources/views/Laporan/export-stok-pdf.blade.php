@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Stok Barang</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 6px 8px; border: 1px solid #ddd; }
+        thead tr { background: #343a40; color: white; }
+        tr.habis { background: #f8d7da; }
+        tr.menipis { background: #fff3cd; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        tr.habis:nth-child(even) { background: #f8d7da; }
+        tr.menipis:nth-child(even) { background: #fff3cd; }
+        @media print {
+            button { display: none; }
+        }
+    </style>
 </head>
 <body>
 
@@ -41,34 +55,35 @@
     </table>
 
     {{-- Tabel Data --}}
-    <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+    <table>
         <thead>
-            <tr style="background: #343a40; color: white;">
-                <th style="padding: 8px; border: 1px solid #ddd;">No</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Kode</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Nama Barang</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Kategori</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Satuan</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Harga Beli</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Harga Jual</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Stok Min</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Stok Saat Ini</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <tr>
+                <th>No</th>
+                <th>Kode</th>
+                <th>Nama Barang</th>
+                <th>Kategori</th>
+                <th>Satuan</th>
+                <th>Harga Beli</th>
+                <th>Harga Jual</th>
+                <th>Stok Min</th>
+                <th>Stok Saat Ini</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
             @foreach($barang as $index => $b)
-            <tr>
-                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">{{ $index + 1 }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd;">{{ $b->kode_barang }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd;">{{ $b->nama_barang }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd;">{{ $b->kategori->nama_kategori ?? '-' }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">{{ $b->satuan }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd;">Rp {{ number_format($b->harga_beli, 0, ',', '.') }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd;">Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">{{ $b->stok_minimum }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">{{ $b->stok_saat_ini }}</td>
-                <td style="padding: 6px; border: 1px solid #ddd; text-align: center;">{{ ucfirst($b->statusStok()) }}</td>
+            @php $status = $b->statusStok(); @endphp
+            <tr class="{{ $status }}">
+                <td style="text-align: center;">{{ $index + 1 }}</td>
+                <td>{{ $b->kode_barang }}</td>
+                <td>{{ $b->nama_barang }}</td>
+                <td>{{ $b->kategori->nama_kategori ?? '-' }}</td>
+                <td style="text-align: center;">{{ $b->satuan }}</td>
+                <td>Rp {{ number_format($b->harga_beli, 0, ',', '.') }}</td>
+                <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
+                <td style="text-align: center;">{{ $b->stok_minimum }}</td>
+                <td style="text-align: center;">{{ $b->stok_saat_ini }}</td>
+                <td style="text-align: center;">{{ ucfirst($status) }}</td>
             </tr>
             @endforeach
         </tbody>
