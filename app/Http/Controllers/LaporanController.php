@@ -90,4 +90,10 @@ class LaporanController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function exportStokPdf()
+    {
+        $barang = Barang::with('kategori')->orderBy('kode_barang')->get();
+        return view('laporan.export-stok-pdf', compact('barang'));
+    }
 }
