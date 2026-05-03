@@ -138,7 +138,7 @@
                                         </td>
                                         <td class="text-center">
                                             <form action="{{ route('supplier.toggle-status', $supplier->id_supplier) }}"
-                                                method="POST">
+                                                method="POST" style="display:inline">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit"

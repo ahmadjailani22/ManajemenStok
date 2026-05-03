@@ -21,6 +21,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::middleware('auth')->group(function () {
     Route::resource('barang', BarangController::class);
+    Route::patch('supplier/{supplier}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('supplier.toggle-status')
+        ->name('supplier.toggle-status')
+        ->middleware('auth');
     Route::resource('supplier', SupplierController::class);
     Route::resource('kategori', KategoriController::class);
     Route::resource('barang-masuk', BarangMasukController::class);
