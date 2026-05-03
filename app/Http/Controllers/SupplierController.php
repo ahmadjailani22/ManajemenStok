@@ -43,7 +43,6 @@ class SupplierController extends Controller
             'status.required' => 'Status wajib dipilih.',
         ]);
 
-        // FIX: generate kode di server, tidak ambil dari form
         Supplier::create([
             'kode_supplier' => Supplier::generateKode(),
             'nama_supplier' => $request->nama_supplier,
@@ -70,7 +69,6 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         $request->validate([
-            // FIX: kode_supplier sekarang dikirim via hidden input, validasi tetap ada
             'kode_supplier' => 'required|unique:supplier,kode_supplier,' . $supplier->id_supplier . ',id_supplier',
             'nama_supplier' => 'required',
             'telepon' => 'nullable',
@@ -91,9 +89,9 @@ class SupplierController extends Controller
 
     public function destroy(Supplier $supplier)
     {
-        $supplier->update(['status' => 'nonaktif']);
+        $supplier->delete();
 
         return redirect()->route('supplier.index')
-            ->with('success', 'Supplier berhasil dinonaktifkan.');
+            ->with('success', 'Supplier berhasil dihapus.');
     }
 }
