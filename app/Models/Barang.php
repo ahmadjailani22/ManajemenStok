@@ -35,4 +35,11 @@ class Barang extends Model
     {
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
     }
+
+    public function statusStok(): string
+    {
+        if ($this->stok_saat_ini == 0) return 'habis';
+        if ($this->stok_saat_ini <= $this->stok_minimum) return 'menipis';
+        return 'aman';
+    }
 }
