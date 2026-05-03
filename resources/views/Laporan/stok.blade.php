@@ -124,7 +124,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- baris data akan ditambah --}}
+                            @foreach($barang as $index => $b)
+                            <tr>
+                                <td>{{ $barang->firstItem() + $index }}</td>
+                                <td>{{ $b->kode_barang }}</td>
+                                <td>{{ $b->nama_barang }}</td>
+                                <td>{{ $b->kategori->nama_kategori ?? '-' }}</td>
+                                <td>{{ $b->satuan }}</td>
+                                <td>Rp {{ number_format($b->harga_beli, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($b->harga_jual, 0, ',', '.') }}</td>
+                                <td>{{ $b->stok_minimum }}</td>
+                                <td>{{ $b->stok_saat_ini }}</td>
+                                <td>{{ $b->statusStok() }}</td>
+                                <td>{{ $b->letak_rak ?? '-' }}</td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
