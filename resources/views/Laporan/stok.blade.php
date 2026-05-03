@@ -81,6 +81,24 @@
                                     <option value="habis" {{ $filterStatus == 'habis' ? 'selected' : '' }}>Habis</option>
                                 </select>
                             </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    <i class="fas fa-search"></i> Filter
+                                </button>
+                                <a href="{{ route('laporan.stok') }}" class="btn btn-secondary">
+                                    <i class="fas fa-sync"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <a href="{{ route('laporan.stok.excel') }}" class="btn btn-success">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </a>
+                                <a href="{{ route('laporan.stok.pdf') }}" class="btn btn-danger ml-1">
+                                    <i class="fas fa-file-pdf"></i> Export PDF
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>
