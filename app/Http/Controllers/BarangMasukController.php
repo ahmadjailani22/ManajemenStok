@@ -17,7 +17,7 @@ class BarangMasukController extends Controller
 
         $barangMasuk = BarangMasuk::with(['barang', 'supplier'])
             ->when($search, function ($query) use ($search) {
-                $query->where('kode_transaksi', 'like', "%{$search}%") // fix: kode_masuk → kode_transaksi
+                $query->where('kode_masuk', 'like', "%{$search}%") // fix: kode_masuk → kode_masuk
                     ->orWhereHas('barang', fn($q) => $q->where('nama_barang', 'like', "%{$search}%"))
                     ->orWhereHas('supplier', fn($q) => $q->where('nama_supplier', 'like', "%{$search}%"));
             })
@@ -58,7 +58,7 @@ class BarangMasukController extends Controller
 
         DB::transaction(function () use ($request) {
             BarangMasuk::create([
-                'kode_transaksi' => BarangMasuk::generateKode(), // fix: kode_masuk → kode_transaksi
+                'kode_masuk' => BarangMasuk::generateKode(), // fix: kode_masuk → kode_masuk
                 'id_barang' => $request->id_barang,
                 'id_supplier' => $request->id_supplier,
                 'tanggal_masuk' => $request->tanggal_masuk,

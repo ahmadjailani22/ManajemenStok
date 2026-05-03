@@ -8,7 +8,7 @@ class Barang extends Model
 {
     protected $table      = 'barang';
     protected $primaryKey = 'id_barang';
-    public $incrementing = true;
+    public $incrementing  = true;
     protected $keyType    = 'int';
 
     protected $fillable = [
@@ -29,11 +29,17 @@ class Barang extends Model
     public function getRouteKeyName()
     {
         return 'id_barang';
-    } 
+    }
 
-    // Relasi ke Kategori
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
+    }
+
+    public function statusStok(): string
+    {
+        if ($this->stok_saat_ini == 0) return 'habis';
+        if ($this->stok_saat_ini <= $this->stok_minimum) return 'menipis';
+        return 'aman';
     }
 }

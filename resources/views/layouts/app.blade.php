@@ -100,23 +100,27 @@
                         <li class="nav-header">TRANSAKSI</li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ request()->routeIs('barang-masuk.*') ? 'active' : '' }}">
+                            <a href="{{ route('barang-masuk.index') }}"
+                                class="nav-link {{ request()->routeIs('barang-masuk.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-arrow-circle-down text-success"></i>
                                 <p>Barang Masuk</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ request()->routeIs('barang-keluar.*') ? 'active' : '' }}">
+                            <a href="{{ route('barang-keluar.index') }}"
+                                class="nav-link {{ request()->routeIs('barang-keluar.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-arrow-circle-up text-danger"></i>
                                 <p>Barang Keluar</p>
                             </a>
                         </li>
 
+
                         <li class="nav-header">LAPORAN</li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('laporan.stok') }}"
+                                class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Laporan Stok</p>
                             </a>

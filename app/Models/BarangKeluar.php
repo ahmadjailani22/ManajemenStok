@@ -11,7 +11,7 @@ class BarangKeluar extends Model
     public $timestamps = false; // ← TAMBAHKAN INI
 
     protected $fillable = [
-        'kode_transaksi',
+        'kode_keluar',
         'id_barang',
         'id_user',
         'jumlah',
@@ -38,7 +38,7 @@ class BarangKeluar extends Model
     public static function generateKode()
     {
         $last = self::orderBy('id_keluar', 'desc')->first();
-        $no = $last ? ((int) substr($last->kode_transaksi, -3)) + 1 : 1;
+        $no = $last ? ((int) substr($last->kode_keluar, -3)) + 1 : 1;
         return 'TRX-OUT-' . str_pad($no, 3, '0', STR_PAD_LEFT);
     }
 }
