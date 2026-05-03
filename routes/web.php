@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\BarangKeluarController;
+use App\Http\Controllers\LaporanController;
 
 // Redirect root ke login
 Route::get('/', function () {
@@ -19,6 +22,20 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
-Route::resource('barang', BarangController::class)->middleware('auth');
-Route::resource('supplier', SupplierController::class)->middleware('auth');
-Route::resource('kategori', KategoriController::class)->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::resource('barang', BarangController::class);
+    Route::resource('supplier', SupplierController::class);
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('barang-masuk', BarangMasukController::class);
+    Route::resource('barang-keluar', BarangKeluarController::class);
+
+    // Route tambahan supplier
+    Route::patch('supplier/{supplier}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('supplier.toggle-status');
+    Route::get('supplier-export/excel', [SupplierController::class, 'exportExcel'])->name('supplier.export.excel');
+    Route::get('supplier-export/pdf', [SupplierController::class, 'exportPdf'])->name('supplier.export.pdf');
+
+    // Laporan Stok
+    Route::get('laporan/stok', [LaporanController::class, 'stok'])->name('laporan.stok');
+    Route::get('laporan/stok/export-excel', [LaporanController::class, 'exportStokExcel'])->name('laporan.stok.excel');
+    Route::get('laporan/stok/export-pdf', [LaporanController::class, 'exportStokPdf'])->name('laporan.stok.pdf');
+});
