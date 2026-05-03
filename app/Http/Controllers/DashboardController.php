@@ -26,7 +26,7 @@ class DashboardController extends Controller
             ->join('barang', 'barang_masuk.id_barang', '=', 'barang.id_barang')
             ->select(
                 DB::raw("'MASUK' as tipe"),
-                'barang_masuk.kode_transaksi',
+                'barang_masuk.kode_masuk as kode_transaksi',
                 'barang.nama_barang',
                 'barang_masuk.jumlah',
                 'barang_masuk.tanggal_masuk as tanggal'
@@ -36,7 +36,7 @@ class DashboardController extends Controller
             ->join('barang', 'barang_keluar.id_barang', '=', 'barang.id_barang')
             ->select(
                 DB::raw("'KELUAR' as tipe"),
-                'barang_keluar.kode_transaksi',
+                'barang_keluar.kode_keluar as kode_transaksi',
                 'barang.nama_barang',
                 'barang_keluar.jumlah',
                 'barang_keluar.tanggal_keluar as tanggal'

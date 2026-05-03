@@ -16,7 +16,7 @@ class BarangKeluarController extends Controller
 
         $barangKeluar = BarangKeluar::with(['barang'])
             ->when($search, function ($query) use ($search) {
-                $query->where('kode_transaksi', 'like', "%{$search}%") // fix: kode_keluar → kode_transaksi
+                $query->where('kode_keluar', 'like', "%{$search}%") // fix: kode_keluar → kode_keluar
                     ->orWhereHas('barang', fn($q) => $q->where('nama_barang', 'like', "%{$search}%"));
             })
             ->orderBy('tanggal_keluar', 'desc')
@@ -62,7 +62,7 @@ class BarangKeluarController extends Controller
 
         DB::transaction(function () use ($request) {
             BarangKeluar::create([
-                'kode_transaksi' => BarangKeluar::generateKode(), // fix: kode_keluar → kode_transaksi
+                'kode_keluar' => BarangKeluar::generateKode(), // fix: kode_keluar → kode_keluar
                 'id_barang' => $request->id_barang,
                 'tanggal_keluar' => $request->tanggal_keluar,
                 'jumlah' => $request->jumlah,

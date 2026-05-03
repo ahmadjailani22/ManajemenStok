@@ -11,7 +11,7 @@ class BarangMasuk extends Model
     public $timestamps = false; // ← tabel tidak punya updated_at
 
     protected $fillable = [
-        'kode_transaksi',      // bukan kode_masuk
+        'kode_masuk',      // bukan kode_masuk
         'id_barang',
         'id_supplier',
         'id_user',
@@ -44,7 +44,7 @@ class BarangMasuk extends Model
     public static function generateKode()
     {
         $last = self::orderBy('id_masuk', 'desc')->first();
-        $no = $last ? ((int) substr($last->kode_transaksi, -3)) + 1 : 1;
+        $no = $last ? ((int) substr($last->kode_masuk, -3)) + 1 : 1;
         return 'TRX-IN-' . str_pad($no, 3, '0', STR_PAD_LEFT);
     }
 }
