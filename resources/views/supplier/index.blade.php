@@ -96,6 +96,7 @@
                                     <th>Alamat</th>
                                     <th>Telepon</th>
                                     <th>Email</th>
+                                    <th class="text-center">Status</th>
                                     <th class="text-center" width="130">Aksi</th>
                                 </tr>
                             </thead>
@@ -136,6 +137,19 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
+                                            <form action="{{ route('supplier.toggle-status', $supplier->id_supplier) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit"
+                                                    class="badge border-0 {{ $supplier->status === 'aktif' ? 'bg-success' : 'bg-secondary' }}"
+                                                    title="Klik untuk toggle status"
+                                                    style="cursor:pointer; font-size:12px; padding:5px 10px;">
+                                                    {{ $supplier->status === 'aktif' ? '● Aktif' : '● Nonaktif' }}
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td class="text-center">
                                             <div class="d-flex gap-1 justify-content-center">
                                                 <a href="{{ route('supplier.edit', $supplier->id_supplier) }}"
                                                     class="btn btn-sm btn-warning" title="Edit">
@@ -173,38 +187,38 @@
     </div>
 
     {{-- Modal Konfirmasi Hapus --}}
- <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>Konfirmasi Hapus
-                </h5>
-                <button type="button" class="close text-white" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center py-4">
-                <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
-                <p class="mb-1">Anda yakin ingin menghapus supplier:</p>
-                <p class="font-weight-bold h5 mb-1" id="namaSupplierHapus">-</p>
-                <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
-                    Batal
-                </button>
-                <form id="formHapus" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger px-4">
-                        <i class="fas fa-trash mr-1"></i>Ya, Hapus
+    <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Konfirmasi Hapus
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
-                </form>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                    <p class="mb-1">Anda yakin ingin menghapus supplier:</p>
+                    <p class="font-weight-bold h5 mb-1" id="namaSupplierHapus">-</p>
+                    <p class="text-muted small">Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-dismiss="modal">
+                        Batal
+                    </button>
+                    <form id="formHapus" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="fas fa-trash mr-1"></i>Ya, Hapus
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 
