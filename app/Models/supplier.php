@@ -18,7 +18,12 @@ class Supplier extends Model
         'alamat',
         'telepon',
         'email',
-        'status', // ← ini yang kurang!
+        'status', 
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function getRouteKeyName()

@@ -172,11 +172,11 @@
                                 <div class="row g-2">
                                     <div class="col-sm-6">
                                         <i class="fas fa-calendar-plus me-1"></i>
-                                        Dibuat: {{ $supplier->created_at->format('d M Y, H:i') }}
+                                        Dibuat: {{ $supplier->created_at ? $supplier->created_at->format('d M Y, H:i') : '-' }}
                                     </div>
                                     <div class="col-sm-6">
                                         <i class="fas fa-calendar-check me-1"></i>
-                                        Diperbarui: {{ $supplier->updated_at->format('d M Y, H:i') }}
+                                        Diperbarui: {{ $supplier->updated_at ? $supplier->updated_at->format('d M Y, H:i') : '-' }}
                                     </div>
                                 </div>
                             </div>

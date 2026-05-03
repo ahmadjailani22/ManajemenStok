@@ -94,4 +94,13 @@ class SupplierController extends Controller
         return redirect()->route('supplier.index')
             ->with('success', 'Supplier berhasil dihapus.');
     }
+
+    public function toggleStatus(Supplier $supplier)
+    {
+        $supplier->status = $supplier->status === 'aktif' ? 'nonaktif' : 'aktif';
+        $supplier->save();
+
+        return redirect()->route('supplier.index')
+            ->with('success', 'Status supplier berhasil diperbarui.');
+    }
 }
