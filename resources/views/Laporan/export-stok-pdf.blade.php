@@ -14,12 +14,19 @@
         tr:nth-child(even) { background: #f9f9f9; }
         tr.habis:nth-child(even) { background: #f8d7da; }
         tr.menipis:nth-child(even) { background: #fff3cd; }
+        .btn-print { padding: 8px 20px; background: #343a40; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 15px; }
+        .footer { margin-top: 30px; text-align: right; font-size: 11px; color: #666; }
         @media print {
-            button { display: none; }
+            .btn-print { display: none; }
         }
     </style>
 </head>
 <body>
+
+    {{-- Tombol Print --}}
+    <button class="btn-print" onclick="window.print()">
+        🖨️ Cetak / Simpan PDF
+    </button>
 
     {{-- Header --}}
     <div style="text-align: center; margin-bottom: 20px;">
@@ -88,6 +95,11 @@
             @endforeach
         </tbody>
     </table>
+
+    {{-- Footer --}}
+    <div class="footer">
+        <p>Dicetak oleh: {{ auth()->user()->name }} &nbsp;|&nbsp; {{ date('d/m/Y H:i') }}</p>
+    </div>
 
 </body>
 </html>
