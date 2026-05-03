@@ -9,5 +9,26 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
-    //
+    public function index(Request $request)
+    {
+        $search       = $request->get('search');
+        $filterKat    = $request->get('kategori');
+        $filterStatus = $request->get('status');
+
+        $barang = Barang::with('kategori')
+            ->when($search, function ($q) use ($search) {
+                $q->where('kode_barang', 'like', "%{$search}%")
+                  ->orWhere('nama_barang', 'like', "%{$search}%");
+            })
+            ->when($filterKat, function ($q) use ($filterKat) {
+                $q->where('id_kategori', $filterKat);
+            })
+            ->orderBy('kode_barang')
+            ->paginate(15)
+            ->withQueryString();
+
+        $kategoris = Kategori::orderBy('nama_kategori')->get();
+
+        return view('laporan.stok', compact('barang', 'kategoris', 'search', 'filterKat', 'filterStatus'));
+    }
 }
