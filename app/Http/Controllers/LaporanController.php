@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
-    public function stok(Request $request)
+    public function index(Request $request)
     {
-        $search      = $request->get('search');
-        $filterKat   = $request->get('kategori');
+        $search       = $request->get('search');
+        $filterKat    = $request->get('kategori');
         $filterStatus = $request->get('status');
 
         $barang = Barang::with('kategori')
@@ -49,12 +49,9 @@ class LaporanController extends Controller
         ));
     }
 
-    public function exportStokExcel(Request $request)
+    public function exportStokExcel()
     {
-        $barang = Barang::with('kategori')
-            ->orderBy('kode_barang')
-            ->get();
-
+        $barang   = Barang::with('kategori')->orderBy('kode_barang')->get();
         $filename = 'laporan_stok_' . date('Ymd_His') . '.csv';
 
         $headers = [
@@ -65,21 +62,15 @@ class LaporanController extends Controller
         $callback = function () use ($barang) {
             $file = fopen('php://output', 'w');
             fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-
             fputcsv($file, [
                 'Kode Barang', 'Nama Barang', 'Kategori', 'Satuan',
                 'Harga Beli', 'Harga Jual', 'Stok Minimum',
                 'Stok Saat Ini', 'Status Stok', 'Letak Rak'
             ]);
-
             foreach ($barang as $b) {
-                if ($b->stok_saat_ini == 0) {
-                    $statusStok = 'Habis';
-                } elseif ($b->stok_saat_ini <= $b->stok_minimum) {
-                    $statusStok = 'Menipis';
-                } else {
-                    $statusStok = 'Aman';
-                }
+                if ($b->stok_saat_ini == 0) $statusStok = 'Habis';
+                elseif ($b->stok_saat_ini <= $b->stok_minimum) $statusStok = 'Menipis';
+                else $statusStok = 'Aman';
 
                 fputcsv($file, [
                     $b->kode_barang,
@@ -94,14 +85,13 @@ class LaporanController extends Controller
                     $b->letak_rak ?? '-',
                 ]);
             }
-
             fclose($file);
         };
 
         return response()->stream($callback, 200, $headers);
     }
 
-    public function exportStokPdf(Request $request)
+    public function exportStokPdf()
     {
         $barang = Barang::with('kategori')->orderBy('kode_barang')->get();
         return view('laporan.export-stok-pdf', compact('barang'));
