@@ -104,6 +104,32 @@
                 </div>
             </div>
 
+            {{-- Tabel Laporan --}}
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
+                                <th>Kategori</th>
+                                <th>Satuan</th>
+                                <th>Harga Beli</th>
+                                <th>Harga Jual</th>
+                                <th>Stok Minimum</th>
+                                <th>Stok Saat Ini</th>
+                                <th>Status</th>
+                                <th>Letak Rak</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- baris data akan ditambah --}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
