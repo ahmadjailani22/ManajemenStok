@@ -29,4 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('supplier/{supplier}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('supplier.toggle-status');
     Route::get('supplier-export/excel', [SupplierController::class, 'exportExcel'])->name('supplier.export.excel');
     Route::get('supplier-export/pdf', [SupplierController::class, 'exportPdf'])->name('supplier.export.pdf');
+
+    // Laporan Stok
+    Route::get('laporan/stok', [LaporanController::class, 'index'])->name('laporan.stok');
+    Route::get('laporan/stok/export-excel', [LaporanController::class, 'exportStokExcel'])->name('laporan.stok.excel');
+    Route::get('laporan/stok/export-pdf', [LaporanController::class, 'exportStokPdf'])->name('laporan.stok.pdf');
 });
