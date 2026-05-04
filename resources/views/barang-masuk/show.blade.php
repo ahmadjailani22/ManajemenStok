@@ -19,10 +19,12 @@
                 <div class="card shadow mb-4">
                     <div class="card-header bg-success text-white py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold">
-                            <i class="fas fa-arrow-circle-down mr-2"></i>{{ $barangMasuk->kode_masuk }}
+                            <i class="fas fa-arrow-circle-down mr-2"></i>
+                            {{ $barangMasuk->kode_transaksi }} {{-- ← perbaikan dari kode_masuk --}}
                         </h6>
-                        <span
-                            class="badge badge-light text-success">{{ $barangMasuk->tanggal_masuk->format('d M Y') }}</span>
+                        <span class="badge badge-light text-success">
+                            {{ $barangMasuk->tanggal_masuk->format('d M Y') }}
+                        </span>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -50,18 +52,22 @@
                         <div class="row text-center">
                             <div class="col-md-4">
                                 <small class="text-muted font-weight-bold text-uppercase d-block">Jumlah</small>
-                                <span class="badge badge-primary"
-                                    style="font-size:1.1em">{{ number_format($barangMasuk->jumlah) }}</span>
+                                <span class="badge badge-primary" style="font-size:1.1em">
+                                    {{ number_format($barangMasuk->jumlah) }}
+                                </span>
                             </div>
                             <div class="col-md-4">
                                 <small class="text-muted font-weight-bold text-uppercase d-block">Harga Beli</small>
-                                <p class="font-weight-bold mb-0">Rp
-                                    {{ number_format($barangMasuk->harga_beli, 0, ',', '.') }}</p>
+                                <p class="font-weight-bold mb-0">
+                                    Rp {{ number_format($barangMasuk->harga_beli_saat_ini, 0, ',', '.') }}
+                                    {{-- ← perbaikan dari harga_beli --}}
+                                </p>
                             </div>
                             <div class="col-md-4">
                                 <small class="text-muted font-weight-bold text-uppercase d-block">Total Harga</small>
-                                <p class="font-weight-bold text-success h5 mb-0">Rp
-                                    {{ number_format($barangMasuk->total_harga, 0, ',', '.') }}</p>
+                                <p class="font-weight-bold text-success h5 mb-0">
+                                    Rp {{ number_format($barangMasuk->total_harga, 0, ',', '.') }}
+                                </p>
                             </div>
                         </div>
 
@@ -75,11 +81,8 @@
                         <div class="row small text-muted">
                             <div class="col-sm-6">
                                 <i class="fas fa-calendar-plus mr-1"></i>
-                                Dibuat: {{ $barangMasuk->created_at->format('d M Y, H:i') }}
-                            </div>
-                            <div class="col-sm-6">
-                                <i class="fas fa-calendar-check mr-1"></i>
-                                Diperbarui: {{ $barangMasuk->updated_at->format('d M Y, H:i') }}
+                                Tanggal Masuk: {{ $barangMasuk->tanggal_masuk->format('d M Y, H:i') }}
+                                {{-- ← hapus created_at, ganti pakai tanggal_masuk --}}
                             </div>
                         </div>
                     </div>
