@@ -333,7 +333,7 @@ http://toko-safitri-system.test
 | ✅ Dashboard Ringkasan | Selesai |
 | 🔄 Manajemen Stok & Notifikasi Minimum | Dalam Pengerjaan |
 | 🔄 Point of Sale (Kasir) | Dalam Pengerjaan |
-| ⏳ Modul Laporan & Export PDF/Excel | Belum Dimulai |
+| ✅ Modul Laporan & Export PDF/Excel | Selesai |
 | ⏳ Manajemen Role & Hak Akses | Belum Dimulai |
 
 ---
