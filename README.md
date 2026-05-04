@@ -88,22 +88,27 @@ Sistem ini hadir sebagai solusi digital berbasis **Laravel** yang menggantikan p
 ## 🗂️ Struktur Direktori
 
 ```
-toko-safitri-system/
+ManajemenStok-main/
 │
 ├── app/
 │   ├── Http/
 │   │   └── Controllers/
-│   │       ├── AuthController.php        # Login & logout
-│   │       ├── BarangController.php      # CRUD barang
-│   │       ├── DashboardController.php   # Halaman dashboard
-│   │       ├── KategoriController.php    # CRUD kategori
-│   │       ├── SupplierController.php    # CRUD supplier
+│   │       ├── AuthController.php            # Login & logout
+│   │       ├── BarangController.php          # CRUD barang
+│   │       ├── BarangKeluarController.php    # Pencatatan barang keluar
+│   │       ├── BarangMasukController.php     # Pencatatan barang masuk
+│   │       ├── DashboardController.php       # Halaman dashboard
+│   │       ├── kategoricontroller.php        # CRUD kategori
+│   │       ├── LaporanController.php         # Laporan & export PDF
+│   │       ├── SupplierController.php        # CRUD supplier
 │   │       └── Controller.php
 │   ├── Models/
-│   │   ├── Barang.php                    # Model data barang
-│   │   ├── Kategori.php                  # Model kategori
-│   │   ├── User.php                      # Model pengguna
-│   │   └── supplier.php                  # Model supplier
+│   │   ├── Barang.php                        # Model data barang
+│   │   ├── BarangKeluar.php                  # Model transaksi keluar
+│   │   ├── BarangMasuk.php                   # Model transaksi masuk
+│   │   ├── Kategori.php                      # Model kategori
+│   │   ├── User.php                          # Model pengguna
+│   │   └── supplier.php                      # Model supplier
 │   └── Providers/
 │       └── AppServiceProvider.php
 │
@@ -113,25 +118,39 @@ toko-safitri-system/
 │   └── cache/
 │
 ├── config/
-│   ├── adminlte.php                      # Konfigurasi template AdminLTE
+│   ├── adminlte.php                          # Konfigurasi template AdminLTE
 │   ├── app.php
 │   ├── auth.php
-│   ├── database.php                      # Konfigurasi koneksi database
-│   └── ...
+│   ├── cache.php
+│   ├── database.php                          # Konfigurasi koneksi database
+│   ├── filesystems.php
+│   ├── logging.php
+│   ├── mail.php
+│   ├── queue.php
+│   ├── services.php
+│   └── session.php
 │
 ├── database/
 │   ├── migrations/
-│   │   ├── 2026_04_06_..._create_sessions_table.php
-│   │   └── 2026_04_20_..._create_suppliers_table.php
+│   │   ├── 0001_01_01_000002_create_jobs_table.php
+│   │   ├── 2026_04_06_134924_create_sessions_table.php
+│   │   ├── 2026_04_20_140956_create_suppliers_table.php
+│   │   ├── 2026_04_28_000001_create_barang_masuk_table.php
+│   │   └── 2026_04_28_000002_create_barang_keluar_table.php
 │   ├── seeders/
 │   │   └── DatabaseSeeder.php
 │   └── factories/
 │       └── UserFactory.php
 │
+├── lang/
+│   └── vendor/                               # Terjemahan dari package pihak ketiga
+│
 ├── public/
-│   ├── index.php                         # Entry point aplikasi
+│   ├── index.php                             # Entry point aplikasi
+│   ├── favicon.ico
+│   ├── robots.txt
 │   ├── .htaccess
-│   └── vendor/                           # Asset publik (AdminLTE, dll)
+│   └── vendor/                               # Asset publik (AdminLTE, dll)
 │
 ├── resources/
 │   ├── css/
@@ -141,31 +160,44 @@ toko-safitri-system/
 │   │   └── bootstrap.js
 │   └── views/
 │       ├── auth/
-│       │   └── login.blade.php           # Halaman login
+│       │   └── login.blade.php               # Halaman login
 │       ├── barang/
-│       │   ├── index.blade.php           # Daftar barang
-│       │   ├── create.blade.php          # Form tambah barang
-│       │   ├── edit.blade.php            # Form edit barang
-│       │   └── show.blade.php            # Detail barang
+│       │   ├── index.blade.php               # Daftar barang
+│       │   ├── create.blade.php              # Form tambah barang
+│       │   ├── edit.blade.php                # Form edit barang
+│       │   └── show.blade.php                # Detail barang
+│       ├── barang-masuk/
+│       │   ├── index.blade.php               # Daftar barang masuk
+│       │   ├── create.blade.php              # Form tambah barang masuk
+│       │   └── show.blade.php                # Detail barang masuk
+│       ├── barang-keluar/
+│       │   ├── index.blade.php               # Daftar barang keluar
+│       │   ├── create.blade.php              # Form tambah barang keluar
+│       │   └── show.blade.php                # Detail barang keluar
 │       ├── kategori/
-│       │   ├── index.blade.php           # Daftar kategori
-│       │   ├── create.blade.php          # Form tambah kategori
-│       │   └── edit.blade.php            # Form edit kategori
+│       │   ├── index.blade.php               # Daftar kategori
+│       │   ├── create.blade.php              # Form tambah kategori
+│       │   └── edit.blade.php                # Form edit kategori
 │       ├── supplier/
-│       │   ├── index.blade.php           # Daftar supplier
-│       │   ├── create.blade.php          # Form tambah supplier
-│       │   └── edit.blade.php            # Form edit supplier
+│       │   ├── index.blade.php               # Daftar supplier
+│       │   ├── create.blade.php              # Form tambah supplier
+│       │   └── edit.blade.php                # Form edit supplier
+│       ├── Laporan/
+│       │   ├── stok.blade.php                # Halaman laporan stok
+│       │   └── export-stok-pdf.blade.php     # Template export PDF
 │       ├── layouts/
-│       │   └── app.blade.php             # Layout utama (AdminLTE)
-│       ├── dashboard.blade.php           # Halaman dashboard
+│       │   └── app.blade.php                 # Layout utama (AdminLTE)
+│       ├── dashboard.blade.php               # Halaman dashboard
 │       └── welcome.blade.php
 │
 ├── routes/
-│   ├── web.php                           # Definisi semua route web
+│   ├── web.php                               # Definisi semua route web
 │   └── console.php
 │
 ├── storage/
 │   ├── app/
+│   │   ├── private/
+│   │   └── public/
 │   ├── framework/
 │   └── logs/
 │
@@ -176,13 +208,18 @@ toko-safitri-system/
 │   │   └── ExampleTest.php
 │   └── TestCase.php
 │
-├── .env                                  # Konfigurasi environment (tidak di-commit)
-├── .env.example                          # Template konfigurasi environment
+├── .env                                      # Konfigurasi environment (tidak di-commit)
+├── .env.example                              # Template konfigurasi environment
+├── .editorconfig
+├── .gitattributes
 ├── .gitignore
-├── artisan                               # Laravel CLI
-├── composer.json                         # Dependensi PHP
-├── package.json                          # Dependensi Node.js
-├── vite.config.js                        # Konfigurasi Vite
+├── artisan                                   # Laravel CLI
+├── composer.json                             # Dependensi PHP
+├── composer.lock
+├── db_manajemen_stok.sql                     # Dump database siap import
+├── package.json                              # Dependensi Node.js
+├── phpunit.xml                               # Konfigurasi pengujian
+├── vite.config.js                            # Konfigurasi Vite
 └── README.md
 ```
 
