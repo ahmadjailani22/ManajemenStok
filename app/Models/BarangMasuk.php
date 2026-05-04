@@ -11,12 +11,12 @@ class BarangMasuk extends Model
     public $timestamps = false; // ← tabel tidak punya updated_at
 
     protected $fillable = [
-        'kode_masuk',      // bukan kode_masuk
+        'kode_transaksi', // kode_masuk    
         'id_barang',
         'id_supplier',
         'id_user',
         'jumlah',
-        'harga_beli_saat_ini', // bukan harga_beli
+        'harga_beli_saat_ini', 
         'tanggal_masuk',
         'keterangan',
         // total_harga TIDAK dimasukkan → generated column otomatis
